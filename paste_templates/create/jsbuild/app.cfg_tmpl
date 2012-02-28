@@ -17,6 +17,7 @@ root =
     ${package}/static/lib/cgxp/proj4js
     ${package}/static/lib/cgxp/geoext.ux/ux/Measure/lib
     ${package}/static/lib/cgxp/geoext.ux/ux/SimplePrint/lib
+    ${package}/static/lib/cgxp/geoext.ux/ux/FeatureEditing/lib
     ${package}/static/lib/cgxp/sandbox
     ${package}/static/lib/cgxp/styler/lib
     ${package}/static/lib/cgxp/ext.ux/TwinTriggerComboBox
@@ -102,6 +103,7 @@ root =
     ${package}/static/lib/cgxp/proj4js
     ${package}/static/lib/cgxp/geoext.ux/ux/Measure/lib
     ${package}/static/lib/cgxp/geoext.ux/ux/SimplePrint/lib
+    ${package}/static/lib/cgxp/geoext.ux/ux/FeatureEditing/lib
     ${package}/static/lib/cgxp/sandbox
     ${package}/static/lib/cgxp/styler/lib
     ${package}/static/lib/cgxp/ext.ux/TwinTriggerComboBox
@@ -135,6 +137,7 @@ include =
     util.js #GXP
     widgets/Viewer.js #GXP
     Proj/Lang/en.js
+    CGXP/plugins/Editing.js
     CGXP/plugins/ThemeSelector.js
     CGXP/plugins/LayerTree.js
     CGXP/plugins/Zoom.js
@@ -179,6 +182,7 @@ root =
     ${package}/static/lib/cgxp/proj4js
     ${package}/static/lib/cgxp/geoext.ux/ux/Measure/lib
     ${package}/static/lib/cgxp/geoext.ux/ux/SimplePrint/lib
+    ${package}/static/lib/cgxp/geoext.ux/ux/FeatureEditing/lib
     ${package}/static/lib/cgxp/sandbox
     ${package}/static/lib/cgxp/styler/lib
     ${package}/static/lib/cgxp/ext.ux/TwinTriggerComboBox
@@ -250,6 +254,7 @@ root =
     ${package}/static/lib/cgxp/proj4js
     ${package}/static/lib/cgxp/geoext.ux/ux/Measure/lib
     ${package}/static/lib/cgxp/geoext.ux/ux/SimplePrint/lib
+    ${package}/static/lib/cgxp/geoext.ux/ux/FeatureEditing/lib
     ${package}/static/lib/cgxp/sandbox
     ${package}/static/lib/cgxp/styler/lib
     ${package}/static/lib/cgxp/ext.ux/TwinTriggerComboBox
@@ -276,6 +281,7 @@ root =
     ${package}/static/lib/cgxp/proj4js
     ${package}/static/lib/cgxp/geoext.ux/ux/Measure/lib
     ${package}/static/lib/cgxp/geoext.ux/ux/SimplePrint/lib
+    ${package}/static/lib/cgxp/geoext.ux/ux/FeatureEditing/lib
     ${package}/static/lib/cgxp/sandbox
     ${package}/static/lib/cgxp/styler/lib
     ${package}/static/lib/cgxp/ext.ux/TwinTriggerComboBox
@@ -302,6 +308,7 @@ root =
     ${package}/static/lib/cgxp/proj4js
     ${package}/static/lib/cgxp/geoext.ux/ux/Measure/lib
     ${package}/static/lib/cgxp/geoext.ux/ux/SimplePrint/lib
+    ${package}/static/lib/cgxp/geoext.ux/ux/FeatureEditing/lib
     ${package}/static/lib/cgxp/sandbox
     ${package}/static/lib/cgxp/styler/lib
     ${package}/static/lib/cgxp/ext.ux/TwinTriggerComboBox

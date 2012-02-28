@@ -1,0 +1,23 @@
+<%inherit file="index_base.html"/>
+
+<%block name="page_jsurls_debug">\
+<%!
+from jstools.merge import Merger
+%>
+<%
+jsbuild_cfg = request.registry.settings.get('jsbuild_cfg')
+jsbuild_root_dir = request.registry.settings.get('jsbuild_root_dir')
+%>
+% for script in Merger.from_fn(jsbuild_cfg.split(), root_dir=jsbuild_root_dir).list_run(['edit.js', 'lang-%s.js' % lang]):
+<script type="text/javascript" src="$${request.static_url(script.replace('/', ':', 1))}"></script>
+% endfor
+</%block>\
+
+<%block name="page_jsurls_nodebug">\
+        <script type="text/javascript" src="$${request.static_url('${package}:static/build/edit.js')}"></script>
+        <script type="text/javascript" src="$${request.static_url('${package}:static/build/lang-%s.js' % lang)}"></script>
+</%block>\
+
+<%block name="page_title">${package} Geoportal Editor</%block>
+<%block name="page_keywords">${package}, geoportal, editor</%block>
+<%block name="page_description">${package} Geoportal Editor.</%block>
