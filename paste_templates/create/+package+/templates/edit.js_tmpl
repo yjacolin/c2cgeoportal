@@ -1,5 +1,11 @@
 <%inherit file="viewer.js"/>
 
+<%block name="init_project">\
+    OpenLayers.ImgPath = "$${request.static_url('${package}:static/lib/cgxp/core/src/theme/img/ol/')}";
+    Ext.BLANK_IMAGE_URL = "$${request.static_url('${package}:static/lib/cgxp/ext/Ext/resources/images/default/s.gif')}";
+    var EDIT_LAYERS = ${editLayers | n}
+</%block>\
+
 <%block name="viewer">\
     app = new gxp.Viewer({
         portalConfig: {

@@ -14,6 +14,7 @@ from sqlalchemy.sql.expression import and_, or_
 from geoalchemy.functions import functions
 from owslib.wms import WebMapService
 from xml.dom.minidom import parseString
+from shapely import wkb
 
 from c2cgeoportal.lib.functionality import get_functionality, get_functionalities
 from c2cgeoportal.models import DBSession, Layer, LayerGroup, Theme, \
@@ -249,6 +250,25 @@ class Entry(object):
 
         return (exportThemes, error)
 
+    def _editLayers(self):
+        result = {}
+        if self.user is not None:
+            query = DBSession.query(Layer) \
+                    .join(Layer.restrictionareas) \
+                    .join(RestrictionArea.roles) \
+                    .add_column(RestrictionArea.area) \
+                    .filter(Role.id == self.user.role.id) \
+                    .filter(or_(RestrictionArea.allow == 'write', 
+                            RestrictionArea.allow == 'booth')) \
+                    .order_by(Layer.order.asc())
+
+            for row in query.all():
+                result[row[0].name] = {
+                    'editTable': row[0].editTable,
+                    'area': wkb.loads(str(row[1].geom_wkb)).wkt,
+                }
+        return result
+
     def _getForLang(self, key):
         try:
             return json.loads(self.settings.get(key).strip("\"'"))[self.lang]
@@ -320,6 +340,7 @@ class Entry(object):
     @view_config(route_name='edit', renderer='edit.html')
     def edit(self):
         d = self._getVars()
+        d['editLayers'] = json.dumps(self._editLayers());
 
         d['lang'] = self.lang
         d['debug'] = self.debug
