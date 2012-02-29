@@ -6,10 +6,7 @@
             layout: "border",
             // by configuring items here, we don't need to configure portalItems
             // and save a wrapping container
-            items: [{
-                region: "north",
-                contentEl: 'header-out'
-            },
+            items: [
             "app-map",
             {
                 id: "featuregrid-container",
