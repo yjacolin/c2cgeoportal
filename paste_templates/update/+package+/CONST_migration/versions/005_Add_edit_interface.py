@@ -10,8 +10,9 @@ def upgrade(migrate_engine):
 
     restrictionarea = Table('restrictionarea', meta, schema=schema, autoload=True)
     allow = types.Enum("read", "write", "booth", 
-            name=schema+".restrictionallow", metadata=meta)
-    allow.create()
+            name=schema+".restrictionallow", 
+            native_enum=False,
+            metadata=meta)
     Column('allow', allow, default='read').create(restrictionarea)
 
 def downgrade(migrate_engine):
@@ -22,4 +23,3 @@ def downgrade(migrate_engine):
 
     restrictionarea = Table('restrictionarea', meta, schema=schema, autoload=True)
     restrictionarea.c.allow.drop()
-    allow = types.Enum(name=schema+".restrictionallow", metadata=meta)

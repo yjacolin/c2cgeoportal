@@ -363,7 +363,9 @@ class RestrictionArea(Base):
     name = Column(types.Unicode, label=_(u'Name'))
     description = Column(types.Unicode, label=_(u'Description'))
     allow = Column(types.Enum("read", "write", "booth",
-            name=_schema+".restrictionallow"), label=_(u'Allow to'))
+            name=_schema+".restrictionallow",
+            native_enum=False), 
+            label=_(u'Allow to'))
 
     # relationship with Role and Layer
     roles = relationship('Role', secondary=role_ra, 
