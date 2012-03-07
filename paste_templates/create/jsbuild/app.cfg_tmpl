@@ -146,7 +146,6 @@ include =
     CGXP/plugins/MenuShortcut.js
     CGXP/plugins/Print.js
     CGXP/plugins/Legend.js
-    CGXP/plugins/QueryBuilder.js
     CGXP/plugins/Login.js
     CGXP/plugins/Measure.js
     CGXP/plugins/FullTextSearch.js
