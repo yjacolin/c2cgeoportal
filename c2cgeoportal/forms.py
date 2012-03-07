@@ -352,8 +352,8 @@ Functionality.value.set(metadata=dict(mandatory='')).required()
 RestrictionArea = FieldSet(models.RestrictionArea)
 RestrictionArea.name.set(metadata=dict(mandatory='')).required()
 RestrictionArea.layers.set(renderer=LayerCheckBoxTreeSet)
-RestrictionArea.allow.set(renderer=fields.SelectFieldRenderer,
-        options=['read', 'write', 'booth'])
+RestrictionArea.mode.set(renderer=fields.SelectFieldRenderer,
+        options=['read', 'write', 'both'])
 RestrictionArea.roles.set(renderer=fields.CheckBoxSet)
 RestrictionArea.area.set(label=_(u'Restriction area'), options=[
     ('map_srid', 900913),
@@ -369,7 +369,7 @@ fieldOrder = [RestrictionArea.name,
               RestrictionArea.description,
               RestrictionArea.layers,
               RestrictionArea.roles,
-              RestrictionArea.allow,
+              RestrictionArea.mode,
               RestrictionArea.area]
 RestrictionArea.configure(include=fieldOrder)
 

@@ -250,7 +250,7 @@ class Entry(object):
 
         return (exportThemes, error)
 
-    def _editLayers(self):
+    def _edit_layers(self):
         result = {}
         if self.user is not None:
             query = DBSession.query(Layer) \
@@ -340,7 +340,7 @@ class Entry(object):
     @view_config(route_name='edit', renderer='edit.html')
     def edit(self):
         d = self._getVars()
-        d['editLayers'] = json.dumps(self._editLayers());
+        d['editLayers'] = json.dumps(self._edit_ayers());
 
         d['lang'] = self.lang
         d['debug'] = self.debug

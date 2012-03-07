@@ -320,7 +320,7 @@ class Layer(TreeItem):
     minResolution = Column(types.Float, label=_(u'Min resolution')) # for all except internal WMS
     maxResolution = Column(types.Float, label=_(u'Max resolution')) # for all except internal WMS
     disclaimer = Column(types.Unicode, label=_(u'Disclaimer'))
-    editTable = Column(types.Unicode, label=_(u'Table to edit'))
+    geoTable = Column(types.Unicode, label=_(u'Related Postgres table'))
 
     def __init__(self, name=u'', order=0, public=True, icon=u'', 
             layerType=u'internal WMS'):
@@ -362,10 +362,10 @@ class RestrictionArea(Base):
     area = GeometryColumn(Polygon(srid=_srid))
     name = Column(types.Unicode, label=_(u'Name'))
     description = Column(types.Unicode, label=_(u'Description'))
-    allow = Column(types.Enum("read", "write", "booth",
-            name=_schema+".restrictionallow",
-            native_enum=False), 
-            label=_(u'Allow to'))
+    mode = Column(types.Enum("read", "write", "both",
+            name=_schema+".restrictionmode",
+            native_enum=False),
+            label=_(u'Mode'))
 
     # relationship with Role and Layer
     roles = relationship('Role', secondary=role_ra, 

@@ -6,20 +6,20 @@ def upgrade(migrate_engine):
     meta = MetaData(bind=migrate_engine)
 
     layer = Table('layer', meta, schema=schema, autoload=True)
-    Column('editTable', types.Unicode, default=u'').create(layer)
+    Column('geoTable', types.Unicode, default=u'').create(layer)
 
     restrictionarea = Table('restrictionarea', meta, schema=schema, autoload=True)
-    allow = types.Enum("read", "write", "booth", 
-            name=schema+".restrictionallow", 
+    mode = types.Enum("read", "write", "both", 
+            name=schema+".restrictionmode", 
             native_enum=False,
             metadata=meta)
-    Column('allow', allow, default='read').create(restrictionarea)
+    Column('mode', mode, default='read').create(restrictionarea)
 
 def downgrade(migrate_engine):
     meta = MetaData(bind=migrate_engine)
 
     layer = Table('layer', meta, schema=schema, autoload=True)
-    layer.c.editTable.drop()
+    layer.c.geoTable.drop()
 
     restrictionarea = Table('restrictionarea', meta, schema=schema, autoload=True)
-    restrictionarea.c.allow.drop()
+    restrictionarea.c.mode.drop()
