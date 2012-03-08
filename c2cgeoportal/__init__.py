@@ -9,7 +9,7 @@ import pyramid_tm
 import papyrus
 import papyrus_ogcproxy
 
-from papyrus.renderers import GeoJSON
+from papyrus.renderers import GeoJSON, XSD
 
 from c2cgeoportal.resources import FAModels
 from c2cgeoportal.views.tilecache import load_tilecache_config
@@ -67,6 +67,7 @@ def includeme(config):
 
     # add the "geojson" renderer
     config.add_renderer('geojson', GeoJSON())
+    config.add_renderer('xsd', XSD())
 
     # add a TileCache view
     load_tilecache_config(config.get_settings())
@@ -116,6 +117,9 @@ def includeme(config):
 
     # add routes for MapFish web services
     config.include(papyrus.includeme)
+
+    # add routes for XSD metadata
+    config.add_route('metadata', '/metadata/{layer_id:\\d+}.xsd')
 
     # pyramid_formalchemy's configuration
     config.include('pyramid_formalchemy')
