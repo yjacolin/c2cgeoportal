@@ -67,6 +67,8 @@ def includeme(config):
 
     # add the "geojson" renderer
     config.add_renderer('geojson', GeoJSON())
+
+    # add the "xsd" renderer
     config.add_renderer('xsd', XSD())
 
     # add a TileCache view
