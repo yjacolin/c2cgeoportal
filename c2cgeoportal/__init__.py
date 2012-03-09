@@ -67,6 +67,8 @@ def includeme(config):
 
     # add the "geojson" renderer
     config.add_renderer('geojson', GeoJSON())
+
+    # add the "xsd" renderer
     config.add_renderer('xsd', XSD())
 
     # add a TileCache view
@@ -120,6 +122,15 @@ def includeme(config):
 
     # add routes for XSD metadata
     config.add_route('metadata', '/metadata/{layer_id:\\d+}.xsd')
+
+    # add routes for generic tables
+    # FIXME choose better urls
+    config.add_route('generic_read_many', '/{layer_id:\\d+}', request_method='GET')
+    config.add_route('generic_read_one', '/{layer_id:\\d+}/{feature_id:\\d+}', request_method='GET')
+    config.add_route('generic_count', '/{layer_id:\\d+}/count', request_method='GET')
+    config.add_route('generic_create', '/{layer_id:\\d+}', request_method='POST')
+    config.add_route('generic_update', '/{layer_id:\\d+}/{feature_id:\\d+}', request_method='PUT')
+    config.add_route('generic_delete', '/{layer_id:\\d+}/{feature_id:\\d+}', request_method='DELETE')
 
     # pyramid_formalchemy's configuration
     config.include('pyramid_formalchemy')
