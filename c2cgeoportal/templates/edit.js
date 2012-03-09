@@ -14,15 +14,6 @@ Ext.QuickTips.init();
 OpenLayers.Lang.setCode("${lang}");
 GeoExt.Lang.set("${lang}");
 
-// Themes definitions
-/* errors (if any): ${themesError | n} */
-var THEMES = {
-    "local": ${themes | n}
-% if external_themes:
-    , "external": ${external_themes | n}
-% endif
-};
-
 var WMTS_OPTIONS = {
 % if len(tilecache_url) == 0:
     url: "${request.route_url('tilecache', path='')}",
@@ -51,74 +42,28 @@ var WMTS_OPTIONS = {
 app = new gxp.Viewer({
     portalConfig: {
         layout: "border",
-        // by configuring items here, we don't need to configure portalItems
-        // and save a wrapping container
-        items: [
-        "app-map",
-        {
-            id: "featuregrid-container",
-            xtype: "panel",
-            layout: "fit",
-            region: "south",
-            height: 160,
-            split: true,
-            collapseMode: "mini",
-            hidden: true,
-            bodyStyle: 'background-color: transparent;'
-        }, 
-        {
-            layout: "accordion",
-            id: "left-panel",
+        id: "viewer",
+        items: ["app-map"]
+    },
+
+    // configuration of all tool plugins for this application
+    tools: [{
+        ptype: 'cgxp_editing',
+        outputTarget: 'viewer',
+        outputConfig: { 
+            id: 'editing',
             region: "west",
             width: 300,
             minWidth: 300,
             split: true,
             collapseMode: "mini",
             border: false,
-            defaults: {width: 300},
-            items: [{
-                xtype: "panel",
-                title: OpenLayers.i18n("layertree"),
-                id: 'layerpanel',
-                layout: "vbox",
-                layoutConfig: {
-                    align: "stretch"
-                }
-            }]
-        }]
-    },
-
-    // configuration of all tool plugins for this application
-    tools: [{
-        ptype: 'cgxp_editing',
-        outputTarget: 'left-panel',
-        outputConfig: { id: 'editing' },
+        },
+        mapserverURL: "${request.route_url('mapserverproxy')}",
+        metadataURL: "${request.route_url('generic_metadata', layer_id='layer_id')}",
+        mapfishURL: "${request.route_url('generic_read_many', layer_id='layer_id')}",
         layers: ${editLayers | n}
     },
-    {
-        ptype: "cgxp_themeselector",
-        outputTarget: "layerpanel",
-        layerTreeId: "layertree",
-        themes: THEMES,
-        outputConfig: {
-            layout: "fit",
-            style: "padding: 3px 0 3px 3px;"
-        }
-    }, 
-    {
-        ptype: "cgxp_layertree",
-        id: "layertree",
-        outputConfig: {
-            header: false,
-            flex: 1,
-            layout: "fit",
-            autoScroll: true,
-            themes: THEMES,
-            defaultThemes: ["default theme"],
-            wmsURL: "${request.route_url('mapserverproxy', path='')}"
-        },
-        outputTarget: "layerpanel"
-    }, 
     {
         ptype: "cgxp_mapopacityslider"
     },
@@ -173,10 +118,6 @@ app = new gxp.Viewer({
 % endif
         loginURL: "${request.route_url('login', path='')}",
         logoutURL: "${request.route_url('logout', path='')}"
-    },
-    {
-        ptype: "cgxp_menushortcut",
-        type: '-'
     }],
 
     // layer sources

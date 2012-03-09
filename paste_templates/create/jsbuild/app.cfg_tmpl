@@ -139,8 +139,6 @@ include =
     widgets/Viewer.js #GXP
     Proj/Lang/en.js
     CGXP/plugins/Editing.js
-    CGXP/plugins/ThemeSelector.js
-    CGXP/plugins/LayerTree.js
     CGXP/plugins/Zoom.js
     CGXP/plugins/MapOpacitySlider.js
     CGXP/plugins/MenuShortcut.js
@@ -161,7 +159,6 @@ include =
     OpenLayers/Control/OverviewMap.js
     OpenLayers/Control/NavigationHistory.js
     OpenLayers/Layer/WMTS.js
-    OpenLayers/Layer/WMS.js
     OpenLayers/Layer/OSM.js
     OpenLayers/Layer/Vector.js
     OpenLayers/Renderer/SVG.js
