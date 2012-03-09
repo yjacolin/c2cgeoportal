@@ -13,7 +13,7 @@ def get_class_for_request(request):
     try:
         table_name, = DBSession.query(Layer.geoTable).filter(Layer.id == layer_id).one()
     except NoResultFound:
-        raise HTTPNotFound()
+        raise HTTPNotFound("Layer not found")
     except MultipleResultsFound:
         raise HTTPInternalServerError()
     # FIXME add DBSession as argument to get_class to avoid deadlock
