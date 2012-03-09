@@ -121,16 +121,16 @@ def includeme(config):
     config.include(papyrus.includeme)
 
     # add routes for XSD metadata
-    config.add_route('metadata', '/metadata/{layer_id:\\d+}.xsd')
+    config.add_route('generic_metadata', '/mfprotocol/{layer_id:\\d+}.xsd')
 
     # add routes for generic tables
     # FIXME choose better urls
-    config.add_route('generic_read_many', '/{layer_id:\\d+}', request_method='GET')
-    config.add_route('generic_read_one', '/{layer_id:\\d+}/{feature_id:\\d+}', request_method='GET')
-    config.add_route('generic_count', '/{layer_id:\\d+}/count', request_method='GET')
-    config.add_route('generic_create', '/{layer_id:\\d+}', request_method='POST')
-    config.add_route('generic_update', '/{layer_id:\\d+}/{feature_id:\\d+}', request_method='PUT')
-    config.add_route('generic_delete', '/{layer_id:\\d+}/{feature_id:\\d+}', request_method='DELETE')
+    config.add_route('generic_read_many', '/mfprotocol/{layer_id:\\d+}', request_method='GET')
+    config.add_route('generic_read_one', '/mfprotocol/{layer_id:\\d+}/{feature_id:\\d+}', request_method='GET')
+    config.add_route('generic_count', '/mfprotocol/{layer_id:\\d+}/count', request_method='GET')
+    config.add_route('generic_create', '/mfprotocol/{layer_id:\\d+}', request_method='POST')
+    config.add_route('generic_update', '/mfprotocol/{layer_id:\\d+}/{feature_id:\\d+}', request_method='PUT')
+    config.add_route('generic_delete', '/mfprotocol/{layer_id:\\d+}/{feature_id:\\d+}', request_method='DELETE')
 
     # pyramid_formalchemy's configuration
     config.include('pyramid_formalchemy')
