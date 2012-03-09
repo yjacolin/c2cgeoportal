@@ -37,7 +37,7 @@ def generic_read_many(request):
 
 
 @view_config(route_name='generic_read_one', renderer='geojson')
-def generic_read_many(request):
+def generic_read_one(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
@@ -46,7 +46,7 @@ def generic_read_many(request):
 
 
 @view_config(route_name='generic_count', renderer='string')
-def generic_read_many(request):
+def generic_count(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
@@ -54,7 +54,7 @@ def generic_read_many(request):
 
 
 @view_config(route_name='generic_create', renderer='geojson')
-def generic_read_many(request):
+def generic_create(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
@@ -62,7 +62,7 @@ def generic_read_many(request):
 
 
 @view_config(route_name='generic_update', renderer='geojson')
-def generic_read_many(request):
+def generic_update(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
@@ -71,7 +71,7 @@ def generic_read_many(request):
 
 
 @view_config(route_name='generic_delete')
-def generic_read_many(request):
+def generic_delete(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
@@ -79,7 +79,7 @@ def generic_read_many(request):
     return protocol.delete(request, feature_id)
 
 
-@view_config(route_name='generic_md', renderer='xsd')
-def metadata(request):
+@view_config(route_name='generic_metadata', renderer='xsd')
+def generic_metadata(request):
     mapped_class = get_class_for_request(request)
     return mapped_class.__table__
