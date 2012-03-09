@@ -204,7 +204,7 @@ class Entry(object):
                        (Role, Role.id == role_ra.c.role_id) \
                      ). \
                      filter(Role.id == role_id). \
-                     filter(or_(RestrictionArea.allow == 'read', RestrictionArea.allow == 'booth')). \
+                     filter(or_(RestrictionArea.mode == 'read', RestrictionArea.mode == 'both')). \
                      filter(and_(Layer.public != True,
                                  functions.area(RestrictionArea.area) > 0))
             query = query.union(query2)
@@ -258,13 +258,13 @@ class Entry(object):
                     .join(RestrictionArea.roles) \
                     .add_column(RestrictionArea.area) \
                     .filter(Role.id == self.user.role.id) \
-                    .filter(or_(RestrictionArea.allow == 'write', 
-                            RestrictionArea.allow == 'booth')) \
+                    .filter(or_(RestrictionArea.mode == 'write', 
+                            RestrictionArea.mode == 'both')) \
                     .order_by(Layer.order.asc())
 
             for row in query.all():
                 result[row[0].name] = {
-                    'editTable': row[0].editTable,
+                    'id': row[0].id,
                     'area': wkb.loads(str(row[1].geom_wkb)).wkt,
                 }
         return result
@@ -340,7 +340,7 @@ class Entry(object):
     @view_config(route_name='edit', renderer='edit.html')
     def edit(self):
         d = self._getVars()
-        d['editLayers'] = json.dumps(self._edit_ayers());
+        d['editLayers'] = json.dumps(self._edit_layers());
 
         d['lang'] = self.lang
         d['debug'] = self.debug
