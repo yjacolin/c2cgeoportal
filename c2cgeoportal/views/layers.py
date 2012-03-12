@@ -1,8 +1,10 @@
 from geoalchemy import Geometry
-from papyrus.renderers import XSD
 from pyramid.httpexceptions import HTTPInternalServerError, HTTPNotFound
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
+
+from papyrus.renderers import XSD
+from papyrus.protocol import Protocol
 
 from c2cgeoportal.lib.dbreflection import get_class
 from c2cgeoportal.models import DBSession, Layer
@@ -22,8 +24,8 @@ def get_class_for_request(request):
 
 def get_geom_attr_for_mapped_class(mapped_class):
     # FIXME check this logic
-    for columns in mapped_class.__table__.columns:
-        if isinstance(column, Geometry):
+    for column in mapped_class.__table__.columns:
+        if isinstance(column.type, Geometry):
             return column.name
     raise HTTPInternalServerError()
 
@@ -41,7 +43,7 @@ def read_one(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
-    feature_id = int(request.matchdict['feature_id'])
+    feature_id = request.matchdict.get('feature_id', None)
     return protocol.read(request, id=feature_id)
 
 
