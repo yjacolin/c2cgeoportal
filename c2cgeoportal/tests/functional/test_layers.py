@@ -1,7 +1,6 @@
 from nose.plugins.attrib import attr
 from pyramid import testing
 from unittest import TestCase
-import transaction
 
 from c2cgeoportal.tests.functional import tearDownModule, setUpModule
 
@@ -11,18 +10,40 @@ class TestLayers(TestCase):
 
     def setUp(self):
         import sqlahelper
-        engine = sqlahelper.get_engine()
-
-        from sqlalchemy.ext.declarative import declarative_base
-        Base = declarative_base(bind=engine)
-
         from c2cgeoportal.lib.dbreflection import init
+
+        engine = sqlahelper.get_engine()
         init(engine)
 
-        # FIXME drop (or don't create) table if it exists
+    def tearDown(self):
+        import transaction
+        from c2cgeoportal.models import DBSession, Layer, TreeItem
+
+        transaction.commit()
+
+        if self.table is not None:
+            self.table.drop()
+
+        treeitem = DBSession.query(TreeItem).get(1)
+        DBSession.delete(treeitem)
+
+        layer = DBSession.query(Layer).get(1)
+        DBSession.delete(layer)
+
+        transaction.commit()
+
+    def _create_layer(self, tablename):
+        import transaction
+        import sqlahelper
         from sqlalchemy import Column, Table, MetaData, types
-        from geoalchemy import GeometryDDL, GeometryExtensionColumn, Point
-        table = Table('spots', Base.metadata,
+        from sqlalchemy.ext.declarative import declarative_base
+        from geoalchemy import GeometryDDL, GeometryExtensionColumn
+        from geoalchemy import Point
+
+        engine = sqlahelper.get_engine()
+        Base = declarative_base(bind=engine)
+
+        table = Table(tablename, Base.metadata,
                 Column('id', types.Integer, primary_key=True),
                 Column('name', types.Unicode),
                 GeometryExtensionColumn('geom', Point),
@@ -34,32 +55,52 @@ class TestLayers(TestCase):
         from c2cgeoportal.models import DBSession, Layer
         layer = Layer()
         layer.id = 1
-        layer.geoTable = 'spots'
+        layer.geoTable = tablename
         DBSession.add(layer)
+
         transaction.commit()
 
-    def tearDown(self):
-        import transaction
-        from c2cgeoportal.models import DBSession, Layer, TreeItem
+    def _get_request(self, layerid):
+        request = testing.DummyRequest()
+        # FIXME there may be a better way
+        request.matchdict = {'layer_id': layerid}
+        return request
 
-        if self.table is not None:
-            self.table.drop()
+    def test_read_many(self):
+        from geojson.feature import FeatureCollection
+        from c2cgeoportal.views.layers import read_many
 
-        treeitem = DBSession.query(TreeItem).get(1)
-        DBSession.delete(treeitem)
+        self._create_layer('layer_a')
+        request = self._get_request(1)
 
-        layer = DBSession.query(Layer).get(1)
-        DBSession.delete(layer)
-        transaction.commit()
+        collection = read_many(request)
+        self.assertTrue(isinstance(collection, FeatureCollection))
+
+    def test_read_one(self):
+        from pyramid.httpexceptions import HTTPNotFound
+        from c2cgeoportal.views.layers import read_one
+
+        self._create_layer('layer_b')
+        request = self._get_request(1)
+        request.matchdict['feature_id'] = 2
+
+        response = read_one(request)
+        self.assertTrue(isinstance(response, HTTPNotFound))
+
+    def test_count(self):
+        from c2cgeoportal.views.layers import count
+
+        self._create_layer('layer_c')
+        request = self._get_request(1)
+
+        response = count(request)
+        self.assertEquals(response, 0)
 
     def test_metadata(self):
         from c2cgeoportal.views.layers import metadata
-        request = testing.DummyRequest()
-        # FIXME use routes rather than mocking
-        request.matchdict = {'layer_id': 1}
+
+        self._create_layer('layer_d')
+        request = self._get_request(1)
+
         table = metadata(request)
-
-        self.assertEquals(table.name, 'spots')
-
-        import transaction
-        transaction.commit()
+        self.assertEquals(table.name, 'layer_d')
