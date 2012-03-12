@@ -59,10 +59,7 @@ class TestMetadata(TestCase):
         request.matchdict = {'layer_id': 1}
         table = generic_metadata(request)
 
-        # FIXME install renderer in setUp instead of invoking it directly here
-        from papyrus.renderers import XSD
-        response = XSD()(None)(table, {'request': request})
-        self.assertEquals(response.content_type, 'text/xml')
+        self.assertEquals(table.name, 'spots')
 
         import transaction
         transaction.commit()
