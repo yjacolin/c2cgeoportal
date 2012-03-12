@@ -10,8 +10,6 @@ from c2cgeoportal.tests.functional import tearDownModule, setUpModule
 class TestMetadata(TestCase):
 
     def setUp(self):
-        self.config = testing.setUp()
-
         import sqlahelper
         engine = sqlahelper.get_engine()
 
@@ -36,22 +34,35 @@ class TestMetadata(TestCase):
         from c2cgeoportal.models import DBSession, Layer
         layer = Layer()
         layer.id = 1
-        layer.editTable = 'spots'
+        layer.geoTable = 'spots'
         DBSession.add(layer)
         transaction.commit()
 
     def tearDown(self):
-        testing.tearDown()
+        import transaction
+        from c2cgeoportal.models import DBSession, Layer, TreeItem
+
         if self.table is not None:
-            table.drop()
+            self.table.drop()
+
+        treeitem = DBSession.query(TreeItem).get(1)
+        DBSession.delete(treeitem)
+
+        layer = DBSession.query(Layer).get(1)
+        DBSession.delete(layer)
+        transaction.commit()
 
     def test_metadata(self):
-        from c2cgeoportal.views.metadata import metadata
+        from c2cgeoportal.views.metadata import generic_metadata
         request = testing.DummyRequest()
         # FIXME use routes rather than mocking
         request.matchdict = {'layer_id': 1}
-        table = metadata(request)
+        table = generic_metadata(request)
+
         # FIXME install renderer in setUp instead of invoking it directly here
         from papyrus.renderers import XSD
         response = XSD()(None)(table, {'request': request})
         self.assertEquals(response.content_type, 'text/xml')
+
+        import transaction
+        transaction.commit()
