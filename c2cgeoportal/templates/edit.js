@@ -60,8 +60,8 @@ app = new gxp.Viewer({
             border: false,
         },
         mapserverURL: "${request.route_url('mapserverproxy')}",
-        metadataURL: "${request.route_url('generic_metadata', layer_id='layer_id')}",
-        mapfishURL: "${request.route_url('generic_read_many', layer_id='layer_id')}",
+        metadataURL: "${request.route_url('layers_metadata', layer_id='layer_id')}",
+        mapfishURL: "${request.route_url('layers_read_many', layer_id='layer_id')}",
         layers: ${editLayers | n}
     },
     {

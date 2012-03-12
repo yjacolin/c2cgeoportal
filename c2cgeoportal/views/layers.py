@@ -28,16 +28,16 @@ def get_geom_attr_for_mapped_class(mapped_class):
     raise HTTPInternalServerError()
 
 
-@view_config(route_name='generic_read_many', renderer='geojson')
-def generic_read_many(request):
+@view_config(route_name='layers_read_many', renderer='geojson')
+def read_many(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
     return protocol.read(request)
 
 
-@view_config(route_name='generic_read_one', renderer='geojson')
-def generic_read_one(request):
+@view_config(route_name='layers_read_one', renderer='geojson')
+def read_one(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
@@ -45,24 +45,24 @@ def generic_read_one(request):
     return protocol.read(request, id=feature_id)
 
 
-@view_config(route_name='generic_count', renderer='string')
-def generic_count(request):
+@view_config(route_name='layers_count', renderer='string')
+def count(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
     return protocol.count(request)
 
 
-@view_config(route_name='generic_create', renderer='geojson')
-def generic_create(request):
+@view_config(route_name='layers_create', renderer='geojson')
+def create(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
     return protocol.create(request)
 
 
-@view_config(route_name='generic_update', renderer='geojson')
-def generic_update(request):
+@view_config(route_name='layers_update', renderer='geojson')
+def update(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
@@ -70,8 +70,8 @@ def generic_update(request):
     return protocol.update(request, feature_id)
 
 
-@view_config(route_name='generic_delete')
-def generic_delete(request):
+@view_config(route_name='layers_delete')
+def delete(request):
     mapped_class = get_class_for_request(request)
     geom_attr = get_geom_attr_for_mapped_class(mapped_class)
     protocol = Protocol(lambda: DBSession, mapped_class, geom_attr)
@@ -79,7 +79,7 @@ def generic_delete(request):
     return protocol.delete(request, feature_id)
 
 
-@view_config(route_name='generic_metadata', renderer='xsd')
-def generic_metadata(request):
+@view_config(route_name='layers_metadata', renderer='xsd')
+def metadata(request):
     mapped_class = get_class_for_request(request)
     return mapped_class.__table__

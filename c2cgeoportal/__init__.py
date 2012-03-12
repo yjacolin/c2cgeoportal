@@ -117,20 +117,14 @@ def includeme(config):
     # full text search routes
     config.add_route('fulltextsearch', '/fulltextsearch')
 
-    # add routes for MapFish web services
-    config.include(papyrus.includeme)
-
-    # add routes for XSD metadata
-    config.add_route('generic_metadata', '/mfprotocol/{layer_id:\\d+}.xsd')
-
-    # add routes for generic tables
-    # FIXME choose better urls
-    config.add_route('generic_read_many', '/mfprotocol/{layer_id:\\d+}', request_method='GET')
-    config.add_route('generic_read_one', '/mfprotocol/{layer_id:\\d+}/{feature_id:\\d+}', request_method='GET')
-    config.add_route('generic_count', '/mfprotocol/{layer_id:\\d+}/count', request_method='GET')
-    config.add_route('generic_create', '/mfprotocol/{layer_id:\\d+}', request_method='POST')
-    config.add_route('generic_update', '/mfprotocol/{layer_id:\\d+}/{feature_id:\\d+}', request_method='PUT')
-    config.add_route('generic_delete', '/mfprotocol/{layer_id:\\d+}/{feature_id:\\d+}', request_method='DELETE')
+    # add routes for the "layers" web service
+    config.add_route('layers_md', '/layers/{layer_id:\\d+}/md.xsd', request_method='GET')
+    config.add_route('layers_read_many', '/layers/{layer_id:\\d+}', request_method='GET')
+    config.add_route('layers_read_one', '/layers/{layer_id:\\d+}/{feature_id:\\d+}', request_method='GET')
+    config.add_route('layers_count', '/layers/{layer_id:\\d+}/count', request_method='GET')
+    config.add_route('layers_create', '/layers/{layer_id:\\d+}', request_method='POST')
+    config.add_route('layers_update', '/layers/{layer_id:\\d+}/{feature_id:\\d+}', request_method='PUT')
+    config.add_route('layers_delete', '/layers/{layer_id:\\d+}/{feature_id:\\d+}', request_method='DELETE')
 
     # pyramid_formalchemy's configuration
     config.include('pyramid_formalchemy')

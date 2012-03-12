@@ -7,7 +7,7 @@ from c2cgeoportal.tests.functional import tearDownModule, setUpModule
 
 
 @attr(functional=True)
-class TestMetadata(TestCase):
+class TestLayers(TestCase):
 
     def setUp(self):
         import sqlahelper
@@ -53,11 +53,11 @@ class TestMetadata(TestCase):
         transaction.commit()
 
     def test_metadata(self):
-        from c2cgeoportal.views.metadata import generic_metadata
+        from c2cgeoportal.views.layers import metadata
         request = testing.DummyRequest()
         # FIXME use routes rather than mocking
         request.matchdict = {'layer_id': 1}
-        table = generic_metadata(request)
+        table = metadata(request)
 
         self.assertEquals(table.name, 'spots')
 
