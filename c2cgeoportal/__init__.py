@@ -118,7 +118,7 @@ def includeme(config):
     config.add_route('fulltextsearch', '/fulltextsearch')
 
     # add routes for the "layers" web service
-    config.add_route('layers_md', '/layers/{layer_id:\\d+}/md.xsd', request_method='GET')
+    config.add_route('layers_metadata', '/layers/{layer_id:\\d+}/md.xsd', request_method='GET')
     config.add_route('layers_read_many', '/layers/{layer_id:\\d+}', request_method='GET')
     config.add_route('layers_read_one', '/layers/{layer_id:\\d+}/{feature_id:\\d+}', request_method='GET')
     config.add_route('layers_count', '/layers/{layer_id:\\d+}/count', request_method='GET')
