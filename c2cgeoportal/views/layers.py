@@ -63,14 +63,14 @@ def create(request):
 
 @view_config(route_name='layers_update', renderer='geojson')
 def update(request):
-    feature_id = int(request.matchdict['feature_id'])
+    feature_id = request.matchdict.get('feature_id', None)
     protocol = _get_protocol(request)
     return protocol.update(request, feature_id)
 
 
 @view_config(route_name='layers_delete')
 def delete(request):
-    feature_id = int(request.matchdict['feature_id'])
+    feature_id = request.matchdict.get('feature_id', None)
     protocol = _get_protocol(request)
     return protocol.delete(request, feature_id)
 
