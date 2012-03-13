@@ -16,8 +16,8 @@ def _get_class_for_request(request):
         table_name, = DBSession.query(Layer.geoTable).filter(Layer.id == layer_id).one()
     except NoResultFound:
         raise HTTPNotFound("Layer not found")
-    except MultipleResultsFound:
-        raise HTTPInternalServerError()
+    except MultipleResultsFound: # pragma: no cover
+        raise HTTPInternalServerError() # pragma: no cover
     # FIXME add DBSession as argument to get_class to avoid deadlock
     return get_class(str(table_name))
 
@@ -28,7 +28,7 @@ def _get_geom_attr_for_mapped_class(mapped_class):
     for column in mapped_class.__table__.columns:
         if isinstance(column.type, Geometry):
             return column.name
-    raise HTTPInternalServerError()
+    raise HTTPInternalServerError() # pragma: no cover
 
 
 def _get_protocol(request):
