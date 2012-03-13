@@ -18,7 +18,6 @@ def _get_class_for_request(request):
         raise HTTPNotFound("Layer not found")
     except MultipleResultsFound: # pragma: no cover
         raise HTTPInternalServerError() # pragma: no cover
-    # FIXME add DBSession as argument to get_class to avoid deadlock
     return get_class(str(table_name))
 
 
