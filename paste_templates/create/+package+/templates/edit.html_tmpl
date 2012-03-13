@@ -91,16 +91,6 @@ jsbuild_root_dir = request.registry.settings.get('jsbuild_root_dir')
 % endif
         <script type="text/javascript">
             Ext.onReady(function() {
-                OpenLayers.ImgPath = "$${request.static_url('${package}:static/lib/cgxp/core/src/theme/img/ol/')}";
-                Ext.BLANK_IMAGE_URL = "$${request.static_url('${package}:static/lib/cgxp/ext/Ext/resources/images/default/s.gif')}";
-
-% if user:
-                var INITIAL_EXTENT = $${user.role.jsextent};
-% else:
-                var INITIAL_EXTENT = [420000, 30000, 900000, 350000];
-% endif
-                var RESTRICTED_EXTENT = [420000, 30000, 900000, 350000];
-
                 <%include file="edit.js" />
             });
         </script>

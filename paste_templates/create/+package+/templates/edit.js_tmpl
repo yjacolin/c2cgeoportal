@@ -6,13 +6,22 @@
 OpenLayers.Number.thousandsSeparator = ' ';
 OpenLayers.IMAGE_RELOAD_ATTEMPTS = 5;
 OpenLayers.DOTS_PER_INCH = 72;
+OpenLayers.ImgPath = "$${request.static_url('${package}:static/lib/cgxp/core/src/theme/img/ol/')}";
 
 // Ext
+Ext.BLANK_IMAGE_URL = "$${request.static_url('${package}:static/lib/cgxp/ext/Ext/resources/images/default/s.gif')}";
 Ext.QuickTips.init();
 
 // Apply same language than on the server side
 OpenLayers.Lang.setCode("$${lang}");
 GeoExt.Lang.set("$${lang}");
+
+% if user:
+var INITIAL_EXTENT = $${user.role.jsextent};
+% else:
+var INITIAL_EXTENT = [420000, 30000, 900000, 350000];
+% endif
+var RESTRICTED_EXTENT = [420000, 30000, 900000, 350000];
 
 var WMTS_OPTIONS = {
 % if len(tilecache_url) == 0:
