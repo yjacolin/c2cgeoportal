@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
-<html lang="${lang}">
+<html lang="$${lang}">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="Content-Language" content="${lang}" />
+        <meta name="Content-Language" content="$${lang}" />
         <meta name="keywords" content="${package}, mapfish, editor, geoportal">
         <meta name="description" content="${package} Geoportal Editor.">
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
@@ -31,7 +31,7 @@
           z-index: 20001;
         }
         .loading-indicator-static {
-          background: url("${request.static_url('c2cgeoportal:static/images/loading.gif')}") no-repeat transparent;
+          background: url("$${request.static_url('c2cgeoportal:static/images/loading.gif')}") no-repeat transparent;
           font-size: 13px;
           font-family: tahoma,arial,verdana,sans-serif;
           padding: 0 0 3px 20px;
@@ -55,10 +55,10 @@
 % endif
     </head>
 
-    <body class="${lang}">
+    <body class="$${lang}">
         <div id="loading-mask" style=""></div>
         <div id="loading">
-            <div class="loading-indicator-static">${_('Loading message')}</div>
+            <div class="loading-indicator-static">$${_('Loading message')}</div>
         </div>
 
         <noscript><p>JavaScript is required here</p></noscript>
@@ -70,7 +70,7 @@
 
         <div style="display:none">
             <div id="search-tip">
-                <p>${_('search tip message')}</p>
+                <p>$${_('search tip message')}</p>
             </div>
         </div>
 
@@ -95,7 +95,7 @@ jsbuild_root_dir = request.registry.settings.get('jsbuild_root_dir')
                 Ext.BLANK_IMAGE_URL = "$${request.static_url('${package}:static/lib/cgxp/ext/Ext/resources/images/default/s.gif')}";
 
 % if user:
-                var INITIAL_EXTENT = ${user.role.jsextent};
+                var INITIAL_EXTENT = $${user.role.jsextent};
 % else:
                 var INITIAL_EXTENT = [420000, 30000, 900000, 350000];
 % endif
