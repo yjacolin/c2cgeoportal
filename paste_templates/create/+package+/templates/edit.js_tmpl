@@ -11,14 +11,14 @@ OpenLayers.DOTS_PER_INCH = 72;
 Ext.QuickTips.init();
 
 // Apply same language than on the server side
-OpenLayers.Lang.setCode("${lang}");
-GeoExt.Lang.set("${lang}");
+OpenLayers.Lang.setCode("$${lang}");
+GeoExt.Lang.set("$${lang}");
 
 var WMTS_OPTIONS = {
 % if len(tilecache_url) == 0:
-    url: "${request.route_url('tilecache', path='')}",
+    url: "$${request.route_url('tilecache', path='')}",
 % else:
-    url: '${tilecache_url}',
+    url: '$${tilecache_url}',
 % endif
     displayInLayerSwitcher: false,
     requestEncoding: 'REST',
@@ -59,10 +59,10 @@ app = new gxp.Viewer({
             collapseMode: "mini",
             border: false,
         },
-        mapserverURL: "${request.route_url('mapserverproxy')}",
-        metadataURL: "${request.route_url('layers_metadata', layer_id='layer_id')}",
-        mapfishURL: "${request.route_url('layers_read_many', layer_id='layer_id')}",
-        layers: ${editLayers | n}
+        mapserverURL: "$${request.route_url('mapserverproxy')}",
+        metadataURL: "$${request.route_url('layers_metadata', layer_id='layer_id')}",
+        mapfishURL: "$${request.route_url('layers_read_many', layer_id='layer_id')}",
+        layers: $${editLayers | n}
     },
     {
         ptype: "cgxp_mapopacityslider"
@@ -92,7 +92,7 @@ app = new gxp.Viewer({
     }, 
     {
         ptype: "cgxp_fulltextsearch",
-        url: "${request.route_url('fulltextsearch', path='')}",
+        url: "$${request.route_url('fulltextsearch', path='')}",
         actionTarget: "map.tbar"
     },
     {
@@ -114,10 +114,10 @@ app = new gxp.Viewer({
         actionTarget: "map.tbar",
         toggleGroup: "maptools",
 % if user:
-        username: "${user.username}",
+        username: "$${user.username}",
 % endif
-        loginURL: "${request.route_url('login', path='')}",
-        logoutURL: "${request.route_url('logout', path='')}"
+        loginURL: "$${request.route_url('login', path='')}",
+        logoutURL: "$${request.route_url('logout', path='')}"
     }],
 
     // layer sources
@@ -157,9 +157,9 @@ app = new gxp.Viewer({
                     theme: null
                 },
                 layers: [new OpenLayers.Layer.OSM("OSM", [
-                        'http://a.tile.openstreetmap.org/${"${z}"}/${"${x}"}/${"${y}"}.png',
-                        'http://b.tile.openstreetmap.org/${"${z}"}/${"${x}"}/${"${y}"}.png',
-                        'http://c.tile.openstreetmap.org/${"${z}"}/${"${x}"}/${"${y}"}.png'
+                        'http://a.tile.openstreetmap.org/$${"$${z}"}/$${"$${x}"}/$${"$${y}"}.png',
+                        'http://b.tile.openstreetmap.org/$${"$${z}"}/$${"$${x}"}/$${"$${y}"}.png',
+                        'http://c.tile.openstreetmap.org/$${"$${z}"}/$${"$${x}"}/$${"$${y}"}.png'
                     ], {
                         transitionEffect: 'resize',
                         attribution: [
