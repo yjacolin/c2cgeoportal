@@ -53,6 +53,9 @@ resolution into account.
 WFS GetFeature
 --------------
 
+GetFeature allows user to draw a bbox to request layers. It can't manage 
+maxScale and minScale parameters in the mapfile.
+
 Layers involved in the ``box query`` and ``query builder`` features must
 support WFS GetFeature.
 
@@ -82,6 +85,10 @@ And it should have the following ``METADATA``::
 WMS GetFeatureInfo
 ------------------
 
+GetFeatureInfo allows user to clic on map to request layers. Default is to display 
+the bbox of the geometry but you can display the geometry using the configuration 
+described below.
+
 Layers involved in the ``point query`` feature must support WMS GetFeatureInfo.
 
 To support WMS GetFeatureInfo a ``LAYER`` should define a template::
@@ -95,7 +102,12 @@ And it should have the following ``METADATA``::
     "gml_include_items" "all"
     "gml_geom_type" "polygon"
     "gml_geometries" "geom"
- 
+
+.. warning:: The value used (ie *geom*) is not important but you should have the 
+	**same** name in gml_[name]_type parameter and in the value of gml_geometries.
+	Using gml_[name]_type allow you to get the geometry of the feature instead of 
+	the bbox.
+
 Restricted layer
 ----------------
 
