@@ -40,10 +40,10 @@ install_requires = [
 # tests_require, they need be in setup_requires
 setup_requires = [
     'nose==1.1.2',
-    'nosexcover',
-    'nose-progressive',
-    'ipdbplugin',
-    ]
+    'nosexcover==1.0.7',
+    'nose-progressive==1.3',
+    'ipdbplugin==1.2',
+]
 
 tests_require = install_requires + [
     'mock',
