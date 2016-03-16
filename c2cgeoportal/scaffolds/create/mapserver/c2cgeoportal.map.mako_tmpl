@@ -20,7 +20,7 @@ MAP
     # own mapserver's nad folder (use regular slash "/")
     # CONFIG "PROJ_LIB" "C:/path/to/ms4w/proj/nad"
 
-    EXTENT 420000 30000 900000 350000 ##
+#    EXTENT 420000 30000 900000 350000 ## should be defined for better performance
     UNITS METERS
 
     # RESOLUTION and DEFRESOLUTION default to 96. If you
@@ -63,7 +63,7 @@ MAP
     END
 
     PROJECTION
-        "init=epsg:21781"
+        "init=epsg:{{SRID}}"
     END
 
     WEB
@@ -71,7 +71,7 @@ MAP
             "wms_title" "changeme"
             "wms_abstract" "changeme"
             "wms_onlineresource" "http://${host}/${instanceid}/wsgi/mapserv_proxy"
-            "wms_srs" "EPSG:21781"
+            "wms_srs" "EPSG:{{SRID}}"
             "wms_encoding" "UTF-8"
             "wms_enable_request" "*"
             "wfs_enable_request" "!*"

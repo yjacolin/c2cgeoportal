@@ -52,3 +52,40 @@ LAYER
     TILEITEM "LOCATION"
     MINSCALEDENOM 25000
 END
+
+# Europe Layer
+LAYER
+    NAME "borders"
+    TYPE POLYGON
+    STATUS ON
+    TEMPLATE fooOnlyForWMSGetFeatureInfo # For GetFeatureInfo
+#    EXTENT 420000 30000 900000 350000 # Useful for better performance but not mandatory
+    CONNECTIONTYPE postgis
+    PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
+    CONNECTION "${mapserver_connection}"
+    DATA "geom FROM (SELECT geo.* data.europe_borders) as foo using unique id using srid=4326"
+    PROJECTION
+      "init=epsg:4326"
+    END
+    CLASS
+        NAME "borders"
+        STYLE
+          OUTLINECOLOR 0 0 0
+        END
+    END
+    METADATA
+        "wms_title" "Borders of Europe" # For WMS
+        "wms_srs" "EPSG:{{SRID}}" # For WMS
+
+        "wfs_enable_request" "*" # Enable WFS for this layer
+        "gml_include_items" "all" # For GetFeatureInfo and WFS GetFeature (QueryBuilder)
+        "ows_geom_type" "polygon" # For returning geometries in GetFeatureInfo
+        "ows_geometries" "geom" # For returning geometries in GetFeatureInfo
+
+        "wms_metadataurl_href" "http://www.example.com/bar" # For metadata URL
+        "wms_metadataurl_format" "text/html" # For metadata URL
+        "wms_metadataurl_type" "TC211" # For metadata URL
+
+        ${mapserver_layer_metadata} # For secured layers
+    END
+END
