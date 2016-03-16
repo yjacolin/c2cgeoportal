@@ -75,7 +75,7 @@ LAYER
     END
     METADATA
         "wms_title" "Borders of Europe" # For WMS
-        "wms_srs" "EPSG:{{SRID}}" # For WMS
+        "wms_srs" "EPSG:{{srid}}" # For WMS
 
         "wfs_enable_request" "*" # Enable WFS for this layer
         "gml_include_items" "all" # For GetFeatureInfo and WFS GetFeature (QueryBuilder)
