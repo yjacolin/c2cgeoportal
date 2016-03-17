@@ -7,5 +7,6 @@ endif
 
 APACHE_VHOST ?= {{project}}
 INSTANCEID ?= {{project}}
+TILECLOUD_CHAIN ?= FALSE
 
 include CONST_Makefile
