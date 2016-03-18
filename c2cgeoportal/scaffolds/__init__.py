@@ -73,6 +73,27 @@ class BaseTemplate(Template):  # pragma: no cover
 
         return ret
 
+    def _set_srid_in_vars(self, command, vars):
+        """
+        Set the SRID into the vars dict.
+        """
+        srid = None
+        for arg in command.args:
+            m = re.match("srid=(\d+)", arg)
+            if m:
+                srid = m.group(1)
+                break
+        if srid is None:
+            prompt = "Spatial Reference System Identifier " \
+                     "(e.g. 21781): "
+            srid = input_(prompt).strip()
+        try:
+            vars["srid"] = int(srid)
+        except ValueError:
+            raise ValueError(
+                "Specified SRID is not an integer")
+    
+
     def _set_package_in_vars(self, command, vars):
         """
         Set the package into the vars dict.
@@ -163,26 +184,6 @@ class TemplateCreate(BaseTemplate):  # pragma: no cover
             extent = input_(prompt).strip()
         vars["extent"] = extent
 
-    def _set_srid_in_vars(self, command, vars):
-        """
-        Set the SRID into the vars dict.
-        """
-        srid = None
-        for arg in command.args:
-            m = re.match("srid=(\d+)", arg)
-            if m:
-                srid = m.group(1)
-                break
-        if srid is None:
-            prompt = "Spatial Reference System Identifier " \
-                     "(e.g. 21781): "
-            srid = input_(prompt).strip()
-        try:
-            vars["srid"] = int(srid)
-        except ValueError:
-            raise ValueError(
-                "Specified SRID is not an integer")
-    
     def _epsg2bbox(self, srid):
         r = requests.get('http://epsg.io/?format=json&q='+str(srid))
         bbox = r.json()['results'][0]['bbox']
@@ -202,6 +203,8 @@ class TemplateUpdate(BaseTemplate):  # pragma: no cover
         Overrides the base template, adding the "mobile_application_title" variable to
         the variables list.
         """
+
+        self._set_srid_in_vars(command, vars)
 
         # Init defaults
         vars["mobile_application_title"] = "Geoportal Mobile Application"
