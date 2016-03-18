@@ -63,7 +63,7 @@ LAYER
     CONNECTIONTYPE postgis
     PROCESSING "CLOSE_CONNECTION=DEFER" # For performance
     CONNECTION "${mapserver_connection}"
-    DATA "geom FROM (SELECT geo.* data.europe_borders) as foo using unique id using srid=4326"
+    DATA "geom FROM (SELECT geo.* FROM data.europe_borders) as foo using unique gid using srid=4326"
     PROJECTION
       "init=epsg:4326"
     END
@@ -79,7 +79,7 @@ LAYER
 
         "wfs_enable_request" "*" # Enable WFS for this layer
         "gml_include_items" "all" # For GetFeatureInfo and WFS GetFeature (QueryBuilder)
-        "ows_geom_type" "polygon" # For returning geometries in GetFeatureInfo
+        "ows_geom_type" "multipolygon" # For returning geometries in GetFeatureInfo
         "ows_geometries" "geom" # For returning geometries in GetFeatureInfo
 
         "wms_metadataurl_href" "http://www.example.com/bar" # For metadata URL
