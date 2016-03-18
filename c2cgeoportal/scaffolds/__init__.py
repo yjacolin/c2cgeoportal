@@ -183,7 +183,7 @@ class TemplateCreate(BaseTemplate):  # pragma: no cover
             raise ValueError(
                 "Specified SRID is not an integer")
     
-    def _epsg2bbox(srid):
+    def _epsg2bbox(self, srid):
         r = requests.get('http://epsg.io/?format=json&q='+str(srid))
         bbox = r.json()['results'][0]['bbox']
         r = requests.get('http://epsg.io/trans?s_srs=4326&t_srs='+str(srid)+'&data='+str(bbox[1])+','+str(bbox[0]))
