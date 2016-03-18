@@ -21,9 +21,9 @@ Ext.onReady(function() {
 % if bounds:
     var INITIAL_EXTENT = ${dumps(bounds)};
 % else:
-    var INITIAL_EXTENT = [420000, 30000, 900000, 350000];
+    var INITIAL_EXTENT = [{{extent}}];
 % endif
-    var RESTRICTED_EXTENT = [420000, 30000, 900000, 350000];
+    var RESTRICTED_EXTENT = [{{extent}}];
 
     // Themes definitions
     var THEMES = {

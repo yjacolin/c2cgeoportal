@@ -29,6 +29,7 @@
 
 
 import re
+import json, request
 from os import path
 from yaml import load
 from six import string_types
@@ -95,7 +96,9 @@ class TemplateCreate(BaseTemplate):  # pragma: no cover
         Overrides the base template, adding the "srid" variable to
         the variables list.
         """
+        self._set_apache_vhost_in_vars(command, vars)
         self._set_srid_in_vars(command, vars)
+        self._set_extent_in_vars(command, vars)
         self._set_mobile_title_in_vars(command, vars)
         return BaseTemplate.pre(self, command, output_dir, vars)
 
@@ -107,6 +110,23 @@ class TemplateCreate(BaseTemplate):  # pragma: no cover
 
         self.out("Welcome to c2cgeoportal!")
         return BaseTemplate.post(self, command, output_dir, vars)
+
+    def _set_apache_vhost_in_vars(self, commande, vars):
+        """
+        Set the apache_vhost into vars dict.
+        """
+        apache_vhost = None
+        for arg in command.args:
+            m = re.match("apache_vhost=(.+)", arg)
+            if m:
+                apache_vhost = m.group(1)
+                break
+
+        if apache_vhost is None:
+            prompt = "The Apache vhost name:"
+            apache_vhost = input_(prompt).strip()
+
+        vars["apache_vhost"] = apache_vhost
 
     def _set_mobile_title_in_vars(self, command, vars):
         """
@@ -124,6 +144,24 @@ class TemplateCreate(BaseTemplate):  # pragma: no cover
             mobile_title = input_(prompt).strip()
 
         vars["mobile_application_title"] = mobile_title
+
+    def _set_extent_in_vars(self, command, vars):
+        """
+        Set the Extent into the vars dict.
+        """
+        extent = None
+        for arg in command.args:
+            m = re.match("extent=(\d+, ){3}(\d+ )", arg)
+            if m:
+                extent = m.group(1)
+                break
+        if extent is None:
+            extent = _epsg2bbox(vars["srid"])
+        if extent is None:
+            prompt = "Extent (minx, miny, maxx, maxy): " \
+                    "in EPSG:"+vars["srid"]+" projection: "
+            extent = input_(prompt).strip()
+        vars["extent"] = extent
 
     def _set_srid_in_vars(self, command, vars):
         """
@@ -144,6 +182,15 @@ class TemplateCreate(BaseTemplate):  # pragma: no cover
         except ValueError:
             raise ValueError(
                 "Specified SRID is not an integer")
+    
+    def __epsg2bbox(srid):
+        r = requests.get('http://epsg.io/?format=json&q='+str(srid))
+        bbox = r.json()['results'][0]['bbox']
+        r = requests.get('http://epsg.io/trans?s_srs=4326&t_srs='+str(srid)+'&data='+str(bbox[1])+','+str(bbox[0]))
+        r1 = r.json()[0]
+        r = requests.get('http://epsg.io/trans?s_srs=4326&t_srs='+str(srid)+'&data='+str(bbox[3])+','+str(bbox[2]))
+        r2 = r.json()[0]
+        return r1['x'] + ', ' + r2['y'] + ', ' + r2['x'] + ', ' + r1['y']
 
 
 class TemplateUpdate(BaseTemplate):  # pragma: no cover
