@@ -156,7 +156,7 @@ class TemplateCreate(BaseTemplate):  # pragma: no cover
                 extent = m.group(1)
                 break
         if extent is None:
-            extent = _epsg2bbox(vars["srid"])
+            extent = self._epsg2bbox(vars["srid"])
         if extent is None:
             prompt = "Extent (minx, miny, maxx, maxy): " \
                     "in EPSG:"+vars["srid"]+" projection: "
