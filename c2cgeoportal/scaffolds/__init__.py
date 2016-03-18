@@ -111,7 +111,7 @@ class TemplateCreate(BaseTemplate):  # pragma: no cover
         self.out("Welcome to c2cgeoportal!")
         return BaseTemplate.post(self, command, output_dir, vars)
 
-    def _set_apache_vhost_in_vars(self, commande, vars):
+    def _set_apache_vhost_in_vars(self, command, vars):
         """
         Set the apache_vhost into vars dict.
         """
