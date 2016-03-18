@@ -29,7 +29,7 @@
 
 
 import re
-import json, request
+import json, requests
 from os import path
 from yaml import load
 from six import string_types
