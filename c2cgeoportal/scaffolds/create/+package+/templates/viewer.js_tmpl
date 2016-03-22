@@ -174,7 +174,7 @@ Ext.onReady(function() {
             mapserverproxyURL: "${request.route_url('mapserverproxy') | n}",
             maxFeatures: ${wfs_settings.get('maxfeatures', 200)},
             srsName: 'EPSG:{{srid}}',
-            featureTypes: ["query_layer"],
+            featureTypes: ["borders"],
             attributeURLs: ${queryer_attribute_urls | n},
             describeFeatureTypeParams: ${dumps(version_role_params) | n}
         },
