@@ -5,6 +5,7 @@
 /jsbuild/app.cfg
 /node_modules
 /apache/README.txt
+/apache/00_maintenance.conf
 /apache/frontend.conf
 /apache/mapserver.conf
 /apache/wsgi.conf

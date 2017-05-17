@@ -227,3 +227,10 @@ Deploy on the prod server:
   sudo -u deploy deploy -r deploy.cfg prod
 
 **Test on the prod server**
+
+
+Maintenance Page
+=================
+
+A maintenance page is enabled when starting the deploy process and is removed
+when the deploy ends.
