@@ -154,7 +154,7 @@ class Shortener:
                 [email],
                 text.encode("utf-8"),
                 self.settings["email_subject"],
-                self.settings["smtp_server"],
+                self.settings["smtp"],
             )
 
         set_common_headers(

@@ -1642,7 +1642,6 @@ class Entry:
                 settings["email_subject"],
                 settings["smtp_server"],
             )
-
             return {
                 "success": True
             }
